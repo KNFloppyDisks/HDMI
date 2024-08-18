@@ -29,9 +29,13 @@ func main() {
 
 	b := 2.00
 
-	loss, _, err := linreg.ForwardLinearRegression(x, y, w, b)
+	loss, info, err := linreg.ForwardLinearRegression(x, y, w, b)
 	if err != nil {
 		log.Printf("in ForwardLinearRegression: %v", err)
 	}
 	fmt.Printf("LOSS: %f\n", loss)
+
+	lgi := linreg.LossGradient(*info, w, b)
+
+	fmt.Printf("lgi.1: %f\nlgi.2: %f\n", lgi.B, lgi.W)
 }
