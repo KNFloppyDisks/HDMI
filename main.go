@@ -10,24 +10,26 @@ import (
 
 func main() {
 	x := mat.NewDense(3, 3, []float64{
-		4, 3, 2,
-		5, 3, 4,
-		9, 10, 3,
+		1, 2, 3,
+		4, 5, 6,
+		7, 8, 9,
 	})
 
 	y := mat.NewDense(3, 3, []float64{
-		12, 4, 23,
-		5, 9, 8,
-		7, 14, 15,
+		1, 4, 7,
+		2, 5, 8,
+		3, 6, 9,
 	})
 
 	w := mat.NewDense(3, 3, []float64{
-		1, 2, 2,
-		3, 2, 0,
-		2, 1, 1,
+		0.5, 1, 1.5,
+		2, 2.5, 3,
+		3.5, 4, 4.5,
 	})
 
-	b := 2.00
+	w2 := w.T()
+
+	b := 1.00
 
 	loss, info, err := linreg.ForwardLinearRegression(x, y, w, b)
 	if err != nil {
@@ -37,5 +39,9 @@ func main() {
 
 	lgi := linreg.LossGradient(*info, w, b)
 
-	fmt.Printf("lgi.1: %f\nlgi.2: %f\n", lgi.B, lgi.W)
+	fmt.Printf("lgi.Bias: %f\nlgi.Weights: %f\n", lgi.B, lgi.W)
+
+	fl, _, err := linreg.ForwardLoss(x, y, w, w2, b, -1.00)
+
+	fmt.Printf("fl LOSS: %f", fl)
 }
